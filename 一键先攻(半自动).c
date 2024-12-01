@@ -10,10 +10,10 @@ char input[MAX_LENGTH] = {0};
 char continue_choice = '\0';
 int num, i, j , k, l, m;
 int category; 
-int initiative, health, modifiers;//´´½¨ÏÈ¹¥£¬HP£¬µ÷ÕûÖµÁ¿ 
-int constitution, dexterity; //ÒıÈëÊôĞÔÖµ 
-int dexterity_modifiers, constitution_modifiers;//ÒıÈëµ÷ÕûÖµ 
-int dice_num, dice_face;//ÒıÈë÷»ÊıÒÔ¼°÷»Ãæ 
+int initiative, health, modifiers;//åˆ›å»ºå…ˆæ”»ï¼ŒHPï¼Œè°ƒæ•´å€¼é‡ 
+int constitution, dexterity; //å¼•å…¥å±æ€§å€¼ 
+int dexterity_modifiers, constitution_modifiers;//å¼•å…¥è°ƒæ•´å€¼ 
+int dice_num, dice_face;//å¼•å…¥éª°æ•°ä»¥åŠéª°é¢ 
 
 typedef struct {
     char *name;
@@ -36,28 +36,28 @@ typedef struct{
 } Character; 
 
 
-int roll_initiative(int a);//¼ÆËãÏÈ¹¥µÄº¯Êı 
-int roll_health(int a,int b,int c);//¼ÆËãÑªÁ¿µÄº¯Êı 
-int ex_modifiers(int ability); //ĞŞÕıµ÷ÕûÖµµÄº¯Êı 
+int roll_initiative(int a);//è®¡ç®—å…ˆæ”»çš„å‡½æ•° 
+int roll_health(int a,int b,int c);//è®¡ç®—è¡€é‡çš„å‡½æ•° 
+int ex_modifiers(int ability); //ä¿®æ­£è°ƒæ•´å€¼çš„å‡½æ•° 
 void clear_input_buffer(); 
 
 int main(){
 	srand(time(0));
 	int pattern, total_monsters;
 	
-	//·Ö±ğÎªÍæ¼ÒºÍ¹ÖÎïÇóÏÈ¹¥ 
-	printf("ÇëÑ¡ÔñÄ£Ê½(1Îª¹ÖÎïÄ£Ê½£¬2ÎªÍæ¼ÒÄ£Ê½)\n");
+	//åˆ†åˆ«ä¸ºç©å®¶å’Œæ€ªç‰©æ±‚å…ˆæ”» 
+	printf("è¯·é€‰æ‹©æ¨¡å¼(1ä¸ºæ€ªç‰©æ¨¡å¼ï¼Œ2ä¸ºç©å®¶æ¨¡å¼)\n");
 	scanf("%d",&pattern); 
 	
-	while ((getchar())!= '\n');//ÇåÀí±ê×¼ÊäÈë»º³åÇø£¬È·±£ºóĞøfgetsÄÜÕı³£¹¤×÷ 
+	while ((getchar())!= '\n');//æ¸…ç†æ ‡å‡†è¾“å…¥ç¼“å†²åŒºï¼Œç¡®ä¿åç»­fgetsèƒ½æ­£å¸¸å·¥ä½œ 
 	
 	switch (pattern){
 		case 1:
 		{
-	        printf("ÇëÊäÈë¹ÖÎïÖÖÀàÊı\n");
+	        printf("è¯·è¾“å…¥æ€ªç‰©ç§ç±»æ•°\n");
 	       	while (scanf("%d", &category)!= 1 || category <= 0) {
 				void clear_input_buffer();
-				printf("ÊäÈë´íÎó£¬ÇëÊäÈëÒ»¸öÕıÕûÊı×÷Îª¹ÖÎïÖÖÀàÊı£º\n");
+				printf("è¾“å…¥é”™è¯¯ï¼Œè¯·è¾“å…¥ä¸€ä¸ªæ­£æ•´æ•°ä½œä¸ºæ€ªç‰©ç§ç±»æ•°ï¼š\n");
 			}
 	        void clear_input_buffer();
 	        int index = 0;
@@ -68,15 +68,15 @@ int main(){
 	        for (i = 0; i < category; i++) {
 	            monsters[i].name = (char *)malloc(MAX_LENGTH * sizeof(char));
 	            if (monsters[i].name == NULL) {
-			        printf("ÄÚ´æ·ÖÅäÊ§°Ü£¬ÎŞ·¨Îª¹ÖÎïÃû³Æ·ÖÅäÄÚ´æ£¡\n");
+			        printf("å†…å­˜åˆ†é…å¤±è´¥ï¼Œæ— æ³•ä¸ºæ€ªç‰©åç§°åˆ†é…å†…å­˜ï¼\n");
 			        return 1;
 			    }
-	            printf("ÇëÊäÈëµÚ%dÖÖ¹ÖÎïÃû³Æ¡¢ÊıÁ¿£¬È«²¿Êı¾İÊäÈëÍêºóÔÙ°´»Ø³µ¼ü½áÊøÊäÈë£º\n", i+1);
+	            printf("è¯·è¾“å…¥ç¬¬%dç§æ€ªç‰©åç§°ã€æ•°é‡ï¼Œå…¨éƒ¨æ•°æ®è¾“å…¥å®Œåå†æŒ‰å›è½¦é”®ç»“æŸè¾“å…¥ï¼š\n", i+1);
 	            scanf("%s %d", monsters[i].name, &num);
 	            void clear_input_buffer();
 	            
 	            
-	            printf("ÊäÈë%s¹ÖÎïµÄÃô½İÊôĞÔÖµ¡¢ÌåÖÊÊôĞÔÖµ¡¢÷»ÊıºÍ÷»Ãæ(¸÷ÖµÖ®¼äÓÃ¿Õ¸ñ¸ô¿ª)\n", monsters[i].name);
+	            printf("è¾“å…¥%sæ€ªç‰©çš„æ•æ·å±æ€§å€¼ã€ä½“è´¨å±æ€§å€¼ã€éª°æ•°å’Œéª°é¢(å„å€¼ä¹‹é—´ç”¨ç©ºæ ¼éš”å¼€)\n", monsters[i].name);
 		        scanf("%d %d %d %d", &monsters[i].dexterity, &monsters[i].constitution, &monsters[i].dice_num, &monsters[i].dice_face);
 				void clear_input_buffer();
 				
@@ -87,19 +87,19 @@ int main(){
 		            monsters[i].initiative = roll_initiative(monsters[i].dexterity_modifiers);
 		            monsters[i].health = roll_health(monsters[i].dice_num, monsters[i].dice_face, monsters[i].constitution_modifiers);
 					
-			        printf("%s[%d]µÄÏÈ¹¥Îª:%d£¬ÑªÁ¿Îª:%d\n", monsters[i].name, j + 1, monsters[i].initiative, monsters[i].health);
+			        printf("%s[%d]çš„å…ˆæ”»ä¸º:%dï¼Œè¡€é‡ä¸º:%d\n", monsters[i].name, j + 1, monsters[i].initiative, monsters[i].health);
 					
 					if (index >= all_monsters_size) {
-			            all_monsters_size += num; // ¸ù¾İµ±Ç°¹ÖÎïÊıÁ¿ÊÊµ±Ôö¼Ó¿ÉÈİÄÉÊıÁ¿£¬¿É¸ù¾İÊµ¼ÊÇé¿öµ÷ÕûÔö³¤²ßÂÔ
+			            all_monsters_size += num; // æ ¹æ®å½“å‰æ€ªç‰©æ•°é‡é€‚å½“å¢åŠ å¯å®¹çº³æ•°é‡ï¼Œå¯æ ¹æ®å®é™…æƒ…å†µè°ƒæ•´å¢é•¿ç­–ç•¥
 			            all_monsters = (Monster *)realloc(all_monsters, all_monsters_size * sizeof(Monster));
 			            if (all_monsters == NULL) {
-			                printf("ÄÚ´æ·ÖÅäÊ§°Ü£¬ÎŞ·¨Îªall_monstersÖØĞÂ·ÖÅäÄÚ´æ£¡\n");
+			                printf("å†…å­˜åˆ†é…å¤±è´¥ï¼Œæ— æ³•ä¸ºall_monstersé‡æ–°åˆ†é…å†…å­˜ï¼\n");
 			                return 1;
 			            }
 			        }
 					all_monsters[index].name = (char *)malloc(strlen(monsters[i].name) + 1);
 					if (all_monsters[index].name == NULL) {
-					    printf("ÄÚ´æ·ÖÅäÊ§°Ü£¬ÎŞ·¨Îªall_monstersµÄname×Ö¶Î·ÖÅäÄÚ´æ£¡\n");
+					    printf("å†…å­˜åˆ†é…å¤±è´¥ï¼Œæ— æ³•ä¸ºall_monstersçš„nameå­—æ®µåˆ†é…å†…å­˜ï¼\n");
 					    return 1;
 					}
                 	strcpy(all_monsters[index].name, monsters[i].name);
@@ -117,7 +117,7 @@ int main(){
 				}
 			}
 	
-	        // Ã°ÅİÅÅĞò£¬¶ÔËùÓĞ¹ÖÎï¸öÌå°´ÕÕÏÈ¹¥Öµ´ÓĞ¡µ½´óÅÅĞò
+	        // å†’æ³¡æ’åºï¼Œå¯¹æ‰€æœ‰æ€ªç‰©ä¸ªä½“æŒ‰ç…§å…ˆæ”»å€¼ä»å°åˆ°å¤§æ’åº
 	        for (k = 0; k < all_monsters_size - 1; k++) {
 	            for (l = 0; l < all_monsters_size - k - 1; l++) {
 	                if (all_monsters[l].initiative > all_monsters[l + 1].initiative) {
@@ -138,13 +138,13 @@ int main(){
 	            }
 	        }
 	
-	        // Êä³öÅÅĞòºóµÄËùÓĞ¹ÖÎï¸öÌåĞÅÏ¢
-	        printf("ÅÅĞòºóµÄ¹ÖÎïĞÅÏ¢£º\n");
+	        // è¾“å‡ºæ’åºåçš„æ‰€æœ‰æ€ªç‰©ä¸ªä½“ä¿¡æ¯
+	        printf("æ’åºåçš„æ€ªç‰©ä¿¡æ¯ï¼š\n");
 	        for (i = 0; i < all_monsters_size; i++) {
-	            printf("¹ÖÎï%s[%d]µÄÏÈ¹¥Îª:%d£¬ÑªÁ¿Îª:%d\n", all_monsters[i].name, i + 1, all_monsters[i].initiative, all_monsters[i].health);
+	            printf("æ€ªç‰©%s[%d]çš„å…ˆæ”»ä¸º:%dï¼Œè¡€é‡ä¸º:%d\n", all_monsters[i].name, i + 1, all_monsters[i].initiative, all_monsters[i].health);
 	        }
 	       
-	        // ÊÍ·Å¶¯Ì¬·ÖÅäµÄÄÚ´æ
+	        // é‡Šæ”¾åŠ¨æ€åˆ†é…çš„å†…å­˜
 	        for (i = 0; i < num; i++) {
 	            free(monsters[i].name);
 	        }
@@ -159,9 +159,9 @@ int main(){
 
 		case 2:
     		{
-    		printf("ÇëÊäÈëÍæ¼ÒÊıÁ¿\n");
+    		printf("è¯·è¾“å…¥ç©å®¶æ•°é‡\n");
     		scanf("%d", &num);
-    		// Çå¿ÕÊäÈë»º³åÇø£¬·ÀÖ¹ÓÃ»§ÊäÈëÍæ¼ÒÊıÁ¿ºóÎóÊäÈë»»ĞĞ·ûµÈÓ°ÏìºóĞøfgets
+    		// æ¸…ç©ºè¾“å…¥ç¼“å†²åŒºï¼Œé˜²æ­¢ç”¨æˆ·è¾“å…¥ç©å®¶æ•°é‡åè¯¯è¾“å…¥æ¢è¡Œç¬¦ç­‰å½±å“åç»­fgets
     		void clear_input_buffer();
 
     		Character *characters = (Character *)malloc(num * sizeof(Character));
@@ -169,35 +169,35 @@ int main(){
         		characters[i].names = (char *)malloc(MAX_LENGTH * sizeof(char));
     		}
 
-    		// ÌáÊ¾ÊäÈëËùÓĞÍæ¼ÒµÄÃû³ÆºÍÃô½İÊôĞÔÖµµÄ¸ñÊ½ÒªÇó
-    		printf("Çë°´Ë³ĞòÒÀ´ÎÊäÈëËùÓĞÍæ¼ÒµÄÃû³ÆºÍÃô½İÊôĞÔÖµ£¨¸÷ÖµÖ®¼äÓÃ¿Õ¸ñ¸ô¿ª£©£¬È«²¿Êı¾İÊäÈëÍêºóÔÙ°´»Ø³µ¼ü½áÊøÊäÈë£º\n");
+    		// æç¤ºè¾“å…¥æ‰€æœ‰ç©å®¶çš„åç§°å’Œæ•æ·å±æ€§å€¼çš„æ ¼å¼è¦æ±‚
+    		printf("è¯·æŒ‰é¡ºåºä¾æ¬¡è¾“å…¥æ‰€æœ‰ç©å®¶çš„åç§°å’Œæ•æ·å±æ€§å€¼ï¼ˆå„å€¼ä¹‹é—´ç”¨ç©ºæ ¼éš”å¼€ï¼‰ï¼Œå…¨éƒ¨æ•°æ®è¾“å…¥å®Œåå†æŒ‰å›è½¦é”®ç»“æŸè¾“å…¥ï¼š\n");
 
-    		// Ò»´ÎĞÔ»ñÈ¡ËùÓĞÍæ¼ÒµÄÊäÈë
+    		// ä¸€æ¬¡æ€§è·å–æ‰€æœ‰ç©å®¶çš„è¾“å…¥
     		fgets(input, sizeof(input), stdin);
 
-    		// ³õÊ¼»¯Ë÷ÒıÓÃÓÚºóĞø½âÎö
+    		// åˆå§‹åŒ–ç´¢å¼•ç”¨äºåç»­è§£æ
     		int inputIndex = 0;
 
-    		// ½âÎöËùÓĞÍæ¼ÒµÄÊäÈë
+    		// è§£ææ‰€æœ‰ç©å®¶çš„è¾“å…¥
     		for (i = 0; i < num; i++) {
-        		// È·±£ÊäÈëÎ´³¬³ö·¶Î§ÇÒµ±Ç°×Ö·û²»ÊÇ»»ĞĞ·û
+        		// ç¡®ä¿è¾“å…¥æœªè¶…å‡ºèŒƒå›´ä¸”å½“å‰å­—ç¬¦ä¸æ˜¯æ¢è¡Œç¬¦
         		while (inputIndex < strlen(input) && input[inputIndex]!= '\n') {
             		sscanf(&input[inputIndex], "%s %d", characters[i].names, &characters[i].dexterities);
 
-            		// ¸üĞÂÊäÈëË÷Òı£¬Ìø¹ıÒÑ½âÎöµÄ²¿·Ö
+            		// æ›´æ–°è¾“å…¥ç´¢å¼•ï¼Œè·³è¿‡å·²è§£æçš„éƒ¨åˆ†
             		inputIndex += strlen(characters[i].names) + strlen(" ") + strlen("%d") + 1;
 
-            		// ¼ÆËãµ÷ÕûÖµ
+            		// è®¡ç®—è°ƒæ•´å€¼
             		characters[i].dexterity_modifiers = ex_modifiers(characters[i].dexterities);
 
-            		// ¼ÆËãÏÈ¹¥Öµ
+            		// è®¡ç®—å…ˆæ”»å€¼
             		characters[i].initiatives = roll_initiative(characters[i].dexterity_modifiers);
 				
-					// Ã°ÅİÅÅĞòÍæ¼Ò½á¹¹ÌåÊı×é°´ÕÕÏÈ¹¥Öµ´ÓĞ¡µ½´óÅÅĞò
+					// å†’æ³¡æ’åºç©å®¶ç»“æ„ä½“æ•°ç»„æŒ‰ç…§å…ˆæ”»å€¼ä»å°åˆ°å¤§æ’åº
 					for (k = 0; k < num - 1; k++) {
 						for (j = 0; j < num - k - 1; j++) {
     						if (characters[j].initiatives > characters[j + 1].initiatives) {
-        						// ½»»»½á¹¹Ìå
+        						// äº¤æ¢ç»“æ„ä½“
         						Character temp = characters[j];
         						characters[j] = characters[j + 1];
         						characters[j + 1] = temp;
@@ -206,18 +206,18 @@ int main(){
 					}
         		}
 		
-				// Êä³öÏà¹ØĞÅÏ¢
+				// è¾“å‡ºç›¸å…³ä¿¡æ¯
 				for(i=0; i < num; i++){
-        			printf("Íæ¼Ò %s µÄÏÈ¹¥¼ÓÖµÎª%d\n", characters[i].names, characters[i].dexterity_modifiers);
-        			printf("%sµÄÏÈ¹¥Îª:%d\n", characters[i].names, characters[i].initiatives);
+        			printf("ç©å®¶ %s çš„å…ˆæ”»åŠ å€¼ä¸º%d\n", characters[i].names, characters[i].dexterity_modifiers);
+        			printf("%sçš„å…ˆæ”»ä¸º:%d\n", characters[i].names, characters[i].initiatives);
 				}
-        		// Ìø¹ı»»ĞĞ·û£¬×¼±¸½âÎöÏÂÒ»¸öÍæ¼ÒµÄÊı¾İ
+        		// è·³è¿‡æ¢è¡Œç¬¦ï¼Œå‡†å¤‡è§£æä¸‹ä¸€ä¸ªç©å®¶çš„æ•°æ®
 				if (inputIndex < strlen(input)) {
     				inputIndex++;
 				}
 			}		
 
-    		// ÊÍ·Å¶¯Ì¬·ÖÅäµÄÄÚ´æ
+    		// é‡Šæ”¾åŠ¨æ€åˆ†é…çš„å†…å­˜
     		for (i = 0; i < num; i++) {
        			free(characters[i].names);
     		}
@@ -233,7 +233,7 @@ int main(){
 	
 }
 
-//¼ÆËãµ÷ÕûÖµ£¬²¢Ïû³ıÓÉÓÚ¸ºÊıÉáÈëÓëµ÷ÕûÖµ¼ÆËã²»·ûÔì³ÉµÄ´íÎó 
+//è®¡ç®—è°ƒæ•´å€¼ï¼Œå¹¶æ¶ˆé™¤ç”±äºè´Ÿæ•°èˆå…¥ä¸è°ƒæ•´å€¼è®¡ç®—ä¸ç¬¦é€ æˆçš„é”™è¯¯ 
 int ex_modifiers(int ability){
 	if(ability >= 10 || ability % 2 ==0)
 		return (ability - 10) / 2;
@@ -250,7 +250,7 @@ int roll_health(int a,int b,int c){
 	int total = 0;
 	int i = 0;
     for (i = 0; i < a; i++) {
-        // Éú³ÉÃ¿¸ö÷»×ÓµÄËæ»úµãÊı£¬·¶Î§ÊÇ1µ½÷»×ÓÃæÊı
+        // ç”Ÿæˆæ¯ä¸ªéª°å­çš„éšæœºç‚¹æ•°ï¼ŒèŒƒå›´æ˜¯1åˆ°éª°å­é¢æ•°
         int roll = rand() % b + 1;
         total += roll;
     }
